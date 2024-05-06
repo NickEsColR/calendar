@@ -1,10 +1,9 @@
 import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-import { addHours} from "date-fns";
-import enUS from "date-fns/locale/en-US";
+import { addHours } from "date-fns";
 
-import { Navbar } from "../";
+import { CalendarEvent, Navbar } from "../";
 import { getMessagesES, localizer } from "../../helpers";
 
 const events = [
@@ -15,14 +14,13 @@ const events = [
         end: addHours(new Date(), 2),
         bgColor: "#fafafa",
         user: {
-          _id:'123',
-          name: 'Fernando'
-        }
+            _id: "123",
+            name: "Fernando",
+        },
     },
 ];
 
 export const CalendarPage = () => {
-
     const eventStyleGetter = (event, start, end, isSelected) => {
         const style = {
             backgroundColor: "#347cf7",
@@ -33,7 +31,7 @@ export const CalendarPage = () => {
         return {
             style,
         };
-    }
+    };
     return (
         <>
             <Navbar />
@@ -44,9 +42,12 @@ export const CalendarPage = () => {
                 events={events}
                 startAccessor={"start"}
                 endAccessor={"end"}
-                style={{ height: 'calc(100vh - 80px)' }}
+                style={{ height: "calc(100vh - 80px)" }}
                 messages={getMessagesES()}
                 eventPropGetter={eventStyleGetter}
+                components={{
+                    event: CalendarEvent,
+                }}
             />
         </>
     );
