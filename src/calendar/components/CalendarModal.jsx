@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { addHours, differenceInSeconds } from "date-fns";
+import { addHours, differenceInSeconds, set } from "date-fns";
 
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -30,7 +30,7 @@ Modal.setAppElement("#root");
 export const CalendarModal = () => {
 
     const { isNewEventModalOpen,closeNewEventModal } = useUiStore();
-    const {activeEvent} = useCalendarStore();
+    const {activeEvent, startSavingEvent} = useCalendarStore();
 
     const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -73,7 +73,7 @@ export const CalendarModal = () => {
         closeNewEventModal()
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = async(e) => {
         e.preventDefault();
         setFormSubmitted(true);
 
@@ -94,6 +94,8 @@ export const CalendarModal = () => {
             return;
         }
 
+        await startSavingEvent(formValues);
+        setFormSubmitted(false);
         onCloseModal();
     };
 
