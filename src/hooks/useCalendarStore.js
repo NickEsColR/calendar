@@ -49,8 +49,17 @@ export const useCalendarStore = () => {
         }
     };
 
-    const startDeleteEvent = () => {
-        dispatch(deleteEvent());
+    const startDeleteEvent = async () => {
+        try {
+            await calendarApi.delete(`/events/${activeEvent._id}`);
+            dispatch(deleteEvent());
+        } catch (error) {
+            Swal.fire(
+                "Error al eliminar",
+                error.response.data.message,
+                "error"
+            );
+        }
     };
 
     return {
